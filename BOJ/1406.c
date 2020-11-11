@@ -12,7 +12,8 @@ t_list	*lst_new(char c)
 {
 	t_list	*node;
 
-	node = (t_list *)malloc(sizeof(t_list));
+	if (!(node = (t_list *)malloc(sizeof(t_list))))
+		return (0);
 	node->c = c;
 	node->front = NULL;
 	node->next = NULL;
@@ -60,13 +61,15 @@ t_list *add_front_node(t_list *cur, t_list **head)
 	scanf("%c", &c);
 	if (cur->front == NULL)
 	{
-		cur->front = lst_new(c);
+		if (!(cur->front = lst_new(c)))
+			return (0);
 		cur->front->next = cur;
 		*head = cur->front;
 	}
 	else
 	{
-		cur->front->next = lst_new(c);
+		if (!(cur->front->next = lst_new(c)))
+			return (0);
 		cur->front->next->front = cur->front;
 		cur->front->next->next = cur;
 		cur->front = cur->front->next;
@@ -83,18 +86,21 @@ int main(void)
 	t_list	*tmp;
 
 	scanf("%c", &c);
-	head = lst_new(c);
+	if (!(head = lst_new(c)))
+		return (1);
 	cur = head;
 	while (1)
 	{
 		scanf("%c", &c);
 		if (c == '\n')
 			break ;
-		cur->next = lst_new(c);
+		if (!(cur->next = lst_new(c)))
+			return (1);
 		cur->next->front = cur;
 		cur = cur->next;
 	}
-	cur->next = lst_new('\0');
+	if (!(cur->next = lst_new('\0')))
+		return (1);
 	cur->next->front = cur;
 	cur = cur->next;
 	scanf("%d", &N);
@@ -109,7 +115,8 @@ int main(void)
 		else if (c == 'B' && cur->front != NULL)
 			cur = remove_front_node(cur, &head);
 		else if (c == 'P')
-			cur = add_front_node(cur, &head);
+			if (!(cur = add_front_node(cur, &head)))
+				return (1);
 		getchar();
 	}
 	cur = head;

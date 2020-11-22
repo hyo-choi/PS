@@ -1,6 +1,3 @@
-/*
-** Wrong ansswer due to counterexample
-*/
 #include <stdio.h>
 #include <algorithm>
 
@@ -29,7 +26,7 @@ int main(void)
 			sum += arr[n - 1] - arr[i];
 		if (sum > arr[0])
 			result = sum - arr[0];
-		else if (sum < arr[0])
+		else if (sum < arr[0] && (arr[0] - sum) % (n - 1) != 0)
 			result = n - 1 - (arr[0] - sum) % (n - 1);
 		printf("%llu\n", result);
 	}
